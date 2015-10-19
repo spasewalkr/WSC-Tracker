@@ -20,6 +20,11 @@ class Position:
         times = self.timestamp == other.timestamp
 
         return lats and longs and times
+        
+    def __str__(self):
+        return "[latitude: " + str(self.latitude) + ", longitude: " + str(self.longitude) + ", time: " + str(self.timestamp) + "]"
+        
+    __repr__ = __str__
 
 class SolarCar:
     def __init__(self, team_id, team_name, number, name, country_code, car_class, position):
@@ -30,7 +35,11 @@ class SolarCar:
         self.country_code = country_code
         self.car_class = car_class
         self.position = position
-        
+
+    def __str__(self):
+        return "[team_id: " + str(self.team_id) + ", team_name: " + str(self.team_name) + ", team_number: " + str(self.team_number) + ", car_name: " + str(self.car_name) + ", country_code: " + str(self.country_code) + ", car_class: " + str(self.car_class) + " , position: " + str(self.position) + "]"
+    
+    __repr__ = __str__      
 
 def main():
     usage = "Usage: solar_car_logger.py -o <outfile>"
@@ -65,11 +74,11 @@ def main():
                     if prev_loc == car.position:
                         print "Location unchanged", car.team_name
                     else:
-                        of.write(json_data)
+                        of.write(str(car)+"\n")
                         print "New data collected.", car.team_name
                 except KeyError:
                     seen_cars[car.team_number] = car
-                    of.write(json_data)
+                    of.write(str(car)+"\n")
                     print "Car not seen before.", car.team_name
                     
             print "Trying again in 10 seconds..."
